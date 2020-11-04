@@ -9,7 +9,8 @@ type AdjustedPlayerMove = PlayerMove | 'attempted-swap';
 interface Player {
   id: string;
   lives: number;
-  card: Card | null;
+  /** will be true when they have a card but current player isnt suppose to know what */
+  card: Card | true | false;
   move: AdjustedPlayerMove | null;
 }
 type StateChangeCallback = (action: StateChangeAction, version: number) => void;

@@ -1,6 +1,6 @@
 {
   "name": "@modiapp/client",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "description": "Serves as a Typescript api to @modi/server",
   "main": "dist/GameRoomClient.js",
   "files": [
