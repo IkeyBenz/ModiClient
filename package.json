@@ -1,17 +1,21 @@
 {
-  "name": "@modi/client",
+  "name": "@modiapp/client",
   "version": "0.6.3",
   "description": "Serves as a Typescript api to @modi/server",
   "main": "dist/GameRoomClient.js",
   "files": [
     "dist/"
   ],
-  "repository": "https://github.com/IkeyBenz/ModiClient",
+  "repository": "git://github.com/modiapp/client.git",
   "author": "Isaac J Benzaken <ikey.benz@gmail.com>",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "deploy": "build && source .env && npm publish"
   },
   "dependencies": {
     "socket.io-client": "^2.3.1"
