@@ -1,10 +1,11 @@
 {
   "name": "@modiapp/client",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "Serves as a Typescript api to @modi/server",
   "main": "dist/GameRoomClient.js",
   "files": [
-    "dist/"
+    "dist/",
+    "index.d.ts"
   ],
   "repository": "git://github.com/modiapp/client.git",
   "author": "Isaac J Benzaken <ikey.benz@gmail.com>",
