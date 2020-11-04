@@ -1,14 +1,18 @@
 {
   "name": "@modiapp/client",
-  "version": "0.6.4",
+  "version": "0.6.6",
   "description": "Serves as a Typescript api to @modi/server",
   "main": "dist/GameRoomClient.js",
   "files": [
     "dist/",
     "index.d.ts"
   ],
+  "types": "index.d.ts",
   "repository": "git://github.com/modiapp/client.git",
-  "author": "Isaac J Benzaken <ikey.benz@gmail.com>",
+  "author": {
+    "name": "Isaac J Benzaken",
+    "email": "ikey.benz@gmail.com"
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },

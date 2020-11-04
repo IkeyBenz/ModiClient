@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const socket_io_client_1 = __importDefault(require("socket.io-client"));
 class GameRoomClient {
-    constructor(gameId, accessToken, username) {
+    constructor(nspUrl, accessToken, username) {
         this.onConnect = null;
-        this.nspUrl = `http://localhost:5000/games/${gameId}`;
+        this.nspUrl = nspUrl;
         this.accessToken = accessToken;
         this.username = username;
         this.isConnected = false;

@@ -1,29 +1,4 @@
 import io from 'socket.io-client';
-
-type GameSocketClientEmitArgs =
-  | ['get connections']
-  | ['get live updates', number?]
-  | ['get subscribers']
-  | ['get initial state']
-  | ['make move', PlayerMove]
-  | ['choose dealer', string];
-
-type GameSocketClientOnArgs =
-  | ['connect', () => void]
-  | ['disconnect', () => void]
-  | ['state change', StateChangeCallback]
-  | ['subscribers', (playerIds: string[]) => void]
-  | ['connections', (connections: Connections) => void]
-  | ['initial state', (initialGameState: GameState) => void]
-  | ['received move', () => void]
-  | ['not your turn', () => void]
-  | ['choice for dealer received', () => void];
-
-interface GameSocketClient extends SocketIOClient.Socket {
-  emit: (...dispatch: GameSocketClientEmitArgs) => this;
-  on: (...event: GameSocketClientOnArgs) => any; // TODO: couldnt figure out proper return type
-}
-
 class GameRoomClient {
   private nspUrl: string;
   private static connectedSockets: GameSocketClient[] = [];
@@ -34,8 +9,8 @@ class GameRoomClient {
 
   private onConnect: (() => void) | null = null;
 
-  constructor(gameId: string, accessToken: string, username: string) {
-    this.nspUrl = `http://localhost:5000/games/${gameId}`;
+  constructor(nspUrl: string, accessToken: string, username: string) {
+    this.nspUrl = nspUrl;
     this.accessToken = accessToken;
     this.username = username;
     this.isConnected = false;
