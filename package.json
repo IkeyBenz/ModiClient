@@ -12,10 +12,11 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "license": "UNLICENSED",
-  "private": true,
+  "private": false,
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "deploy": "build && source .env && npm publish"
+    "prebuild": "rm -rf ./dist",
+    "deploy": "yarn build && source .env && npm publish"
   },
   "dependencies": {
     "socket.io-client": "^2.3.1"
