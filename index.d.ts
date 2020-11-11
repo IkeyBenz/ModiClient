@@ -9,40 +9,47 @@ type AdjustedPlayerMove = PlayerMove | 'attempted-swap';
 interface Player {
   id: string;
   lives: number;
-  /** will be true when they have a card but current player isnt suppose to know what */
-  card: Card | true | false;
+  card: Card | boolean;
   move: AdjustedPlayerMove | null;
 }
+
 type StateChangeCallback = (action: StateChangeAction, version: number) => void;
 type Connections = {
   [playerId: string]: { username: string; connected: boolean };
 };
-declare type GameState = {
+declare interface GameState {
   players: { [playerId: string]: Player };
   orderedPlayerIds: string[];
   dealerId: string | null;
   activePlayerId: string | null;
   version: number;
 };
-/** Tailored on a per client basis, to ensure that no client can
- * be aware of other players cards when they're not suppose to
- */
+interface TailoredGameState extends GameState {
+  players: { [playerId: string]: TailoredPlayer };
+}
+
 type TailoredCardMap = [Card | boolean, string][];
 
 declare type StateChangeAction =
-  | { type: 'HIGHCARD_WINNERS'; payload: { playerIds: string[] } }
-  | {
-      type: 'START_ROUND';
-      payload: { dealerId: string; activePlayerId: string };
-    }
-  | { type: 'DEALT_CARDS'; payload: { cards: [Card | boolean, string][] } }
-  | { type: 'REMOVE_CARDS' }
-  | { type: 'PLAYER_HIT_DECK'; payload: { playerId: string; card: Card } }
-  | {
-      type: 'PLAYERS_TRADED';
-      payload: { fromPlayerId: string; toPlayerId: string };
-  };
-    
+  | HighcardWinnersDispatch
+  | StartRoundDispatch
+  | DealCardsDispatch
+  | RemoveCardsDispatch
+  | PlayerHitDeckDispatch
+  | PlayersTradedDispatch;
+
+type HighcardWinnersDispatch = { type: 'HIGHCARD_WINNERS'; payload: { playerIds: string[] } };
+type DealCardsDispatch = { type: 'DEALT_CARDS'; payload: { cards: TailoredCardMap } };
+type RemoveCardsDispatch = { type: 'REMOVE_CARDS', payload: {} };
+type PlayerHitDeckDispatch = { type: 'PLAYER_HIT_DECK'; payload: { playerId: string; card: Card } };
+type StartRoundDispatch = {
+  type: 'START_ROUND';
+  payload: { dealerId: string; activePlayerId: string };
+}
+type PlayersTradedDispatch = {
+  type: 'PLAYERS_TRADED';
+  payload: { fromPlayerId: string; toPlayerId: string };
+};
 
 type GameSocketClientEmitArgs =
   | ['get connections']
