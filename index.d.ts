@@ -51,6 +51,22 @@ type PlayersTradedDispatch = {
   payload: { fromPlayerId: string; toPlayerId: string };
 };
 
+type ConnectionResponseDto = {
+  [playerId: string]: {
+    username: string;
+    connected: boolean;
+  };
+};
+type DealerRequestDto = { dealerId: string };
+
+interface GameRoomConnection {
+  onConnectionsChanged(connections: ConnectionResponseDto): any;
+  onError(message: string): any;
+  onGameStateChanged: StateChangeCallback;
+  username: string;
+  playerId: string;
+}
+
 type GameSocketClientEmitArgs =
   | ['get connections']
   | ['get live updates', number?]
