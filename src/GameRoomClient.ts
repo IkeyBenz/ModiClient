@@ -1,26 +1,28 @@
 import io from 'socket.io-client';
 
-
-type GameSocketConfig = {
-  url: string;
-  username: string;
-  playerId: string;
-  onConnectionsChanged(connections: ConnectionResponseDto): any;
-  onConnect(): any;
-  onDisconnect(): any;
-  onStateChange: StateChangeCallback;
-}
-
 export function connectToGameSocket({
   url,
   username,
   playerId,
   onConnectionsChanged,
-  onStateChange
-}: GameSocketConfig) {
-  const socket = io(url, { query: { username, playerId } }) as GameSocketClient;
-  socket.on('connect', () => {
-    socket.on('connections', onConnectionsChanged);
-    socket.on('state change', onStateChange);
+  onStateChange,
+  onDisconnect,
+}: GameSocketConfig): Promise<GameRoomClient> {
+  return new Promise((resolve) => {
+    const socket = io(url, { query: { username, playerId } }) as GameSocketClient;
+ 
+    socket.on('connect', () => {
+      resolve(createGameRoomClient(socket));
+      socket.on('connections', onConnectionsChanged);
+      socket.on('state change', onStateChange);
+      socket.on('disconnect', onDisconnect);
+    });
   })
+}
+
+function createGameRoomClient(socket: GameSocketClient): GameRoomClient {
+  return {
+    disconnect: () => socket.disconnect(),
+    initiateHighcard: () => socket.emit('start game'),
+  }
 }

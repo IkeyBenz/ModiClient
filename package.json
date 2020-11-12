@@ -1,8 +1,8 @@
 {
   "name": "@modiapp/client",
-  "version": "0.6.8",
+  "version": "0.7.0",
   "description": "Serves as a Typescript api to @modi/server",
-  "main": "dist/GameRoomClient.js",
+  "main": "dist/index.js",
   "files": [
     "dist/",
     "index.d.ts"
@@ -32,9 +32,11 @@
     "@types/socket.io-client": "^1.4.34",
     "jest": "^26.6.3",
     "ts-jest": "^26.4.4",
-    "typescript": "^4.0.5"
+    "typescript": "^4.0.5",
+    "wait-for-expect": "^3.0.2"
   },
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   }
 }

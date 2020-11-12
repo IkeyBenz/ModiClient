@@ -73,7 +73,8 @@ type GameSocketClientEmitArgs =
   | ['get subscribers']
   | ['get initial state']
   | ['make move', PlayerMove]
-  | ['choose dealer', string];
+  | ['choose dealer', string]
+  | ['start game'];
 
 type GameSocketClientOnArgs =
   | ['connect', () => void]
@@ -90,27 +91,22 @@ interface GameSocketClient extends SocketIOClient.Socket {
   emit: (...dispatch: GameSocketClientEmitArgs) => this;
   on: (...event: GameSocketClientOnArgs) => any; // TODO: couldnt figure out proper return type
 }
-
-declare class GameRoomClient {
-    private nspUrl;
-    private static connectedSockets;
-    private accessToken;
-    private username;
-    private isConnected;
-    private socket;
-    private onConnect;
-    constructor(gameId: string, accessToken: string, username: string);
-    private createInitialSocket;
-    get connected(): boolean;
-    getSubscriptionStatus(): Promise<boolean>;
-    connect(): Promise<GameSocketClient>;
-    subscribeToLiveStateChanges(fromVersion: number, onStateChange: StateChangeCallback): Promise<void>;
-    getInitialGameState(): Promise<GameState>;
-    makeMove(move: PlayerMove): Promise<unknown>;
-    static unplugConnectedSockets(): void;
-    chooseDealer(dealerId: string): Promise<unknown>;
+type GameSocketConfig = {
+  url: string;
+  username: string;
+  playerId: string;
+  onConnectionsChanged(connections: ConnectionResponseDto): any;
+  onDisconnect(): any;
+  onStateChange: StateChangeCallback;
 }
 
+interface GameRoomClient {
+  disconnect(): void;
+  initiateHighcard(): void;
+}
+declare function connectToGameSocket(config: GameSocketConfig): GameRoomClient;
 declare module '@modiapp/client' {
-  export default GameRoomClient;
+  exports = {
+    connectToGameSocket
+  };
 }

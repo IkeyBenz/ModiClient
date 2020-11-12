@@ -69,7 +69,8 @@
   "include": [
     "src/**/*",
     "test/**/*",
-    "index.d.ts"
+    "index.d.ts",
+    "src/client-types.d.ts"
   ],
   "exclude": [
     "node_modules"
