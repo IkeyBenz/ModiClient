@@ -7,12 +7,14 @@ export function connectToGameSocket({
   onConnectionsChanged,
   onStateChange,
   onDisconnect,
-}: GameSocketConfig): Promise<GameRoomClient> {
+}: GameSocketConfig): Promise<GameRoomClientController> {
   return new Promise((resolve) => {
     const socket = io(url, { query: { username, playerId } }) as GameSocketClient;
  
     socket.on('connect', () => {
-      resolve(createGameRoomClient(socket));
+      const grController = createGameRoomClientController(socket);
+      resolve(grController);
+
       socket.on('connections', onConnectionsChanged);
       socket.on('state change', onStateChange);
       socket.on('disconnect', onDisconnect);
@@ -20,7 +22,7 @@ export function connectToGameSocket({
   })
 }
 
-function createGameRoomClient(socket: GameSocketClient): GameRoomClient {
+function createGameRoomClientController(socket: GameSocketClient): GameRoomClientController {
   return {
     disconnect: () => socket.disconnect(),
     initiateHighcard: () => socket.emit('start game'),

@@ -27,12 +27,12 @@ test('gets alerted when connections change', async () => {
     const mikeSocket = createMockSocketConfig('Mike', '3');
     const mikeClient = await connectToGameSocket(mikeSocket);
     await waitForExpect(() => {
-      expect(mikeSocket.onConnectionsChanged).toHaveBeenNthCalledWith(1, {
-        '1': { username: 'Ikey', connected: true },
-        '2': { username: '', connected: false },
-        '3': { username: 'Mike', connected: true },
-        '4': { username: '', connected: false },
-      } as ConnectionResponseDto);
+      expect(mikeSocket.onConnectionsChanged).toHaveBeenNthCalledWith(1, [
+        { username: 'Ikey', connected: true },
+        { username: '', connected: false },
+        { username: 'Mike', connected: true },
+        { username: '', connected: false },
+       ] as ConnectionResponseDto);
     });
     ikeyClient.disconnect();
     await waitForExpect(() => expect(ikeysSocket.onDisconnect).toHaveBeenCalled());
