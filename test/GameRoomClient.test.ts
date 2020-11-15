@@ -28,21 +28,21 @@ test('gets alerted when connections change', async () => {
     const mikeClient = await connectToGameSocket(mikeSocket);
     await waitForExpect(() => {
       expect(mikeSocket.onConnectionsChanged).toHaveBeenNthCalledWith(1, [
-        { username: 'Ikey', connected: true },
-        { username: '', connected: false },
-        { username: 'Mike', connected: true },
-        { username: '', connected: false },
+        { username: 'Ikey', connected: true, playerId: '1' },
+        { username: '', connected: false, playerId: '2' },
+        { username: 'Mike', connected: true, playerId: '3' },
+        { username: '', connected: false, playerId: '4' },
        ] as ConnectionResponseDto);
     });
     ikeyClient.disconnect();
     await waitForExpect(() => expect(ikeysSocket.onDisconnect).toHaveBeenCalled());
     await waitForExpect(() => {
-      expect(mikeSocket.onConnectionsChanged).toHaveBeenNthCalledWith(2, {
-        '1': { username: 'Ikey', connected: false },
-        '2': { username: '', connected: false },
-        '3': { username: 'Mike', connected: true },
-        '4': { username: '', connected: false },
-      });
+      expect(mikeSocket.onConnectionsChanged).toHaveBeenNthCalledWith(2, [
+        { username: 'Ikey', connected: false, playerId: '1' },
+        { username: '', connected: false, playerId: '2' },
+        { username: 'Mike', connected: true, playerId: '3' },
+        { username: '', connected: false, playerId: '4' },
+      ]);
     });
     mikeClient.disconnect();
   });
