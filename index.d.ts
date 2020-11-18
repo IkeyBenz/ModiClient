@@ -89,9 +89,8 @@ type GameSocketClientOnArgs =
   | ['connect', () => void]
   | ['disconnect', () => void]
   | ['state change', StateChangeCallback]
-  | ['subscribers', (playerIds: string[]) => void]
   | ['connections', (connections: ConnectionResponseDto) => void]
-  | ['initial state', (initialGameState: GameState) => void]
+  | ['error message', (message: string) => void]
   | ['received move', () => void]
   | ['not your turn', () => void]
   | ['choice for dealer received', () => void];
@@ -104,6 +103,7 @@ interface GameSocketClient extends SocketIOClient.Socket {
 interface GameRoomClientCallbacks {
   onConnectionsChanged(connections: ConnectionResponseDto): any;
   onDisconnect(): any;
+  onError(message: string): any;
   onStateChange: StateChangeCallback;
 }
 interface GameSocketConfig extends GameRoomClientCallbacks {

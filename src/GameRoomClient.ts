@@ -7,6 +7,7 @@ export function connectToGameSocket({
   onConnectionsChanged,
   onStateChange,
   onDisconnect,
+  onError,
 }: GameSocketConfig): Promise<GameRoomClientController> {
   return new Promise((resolve) => {
     const socket = io(url, { query: { username, playerId } }) as GameSocketClient;
@@ -18,6 +19,7 @@ export function connectToGameSocket({
       socket.on('connections', onConnectionsChanged);
       socket.on('state change', onStateChange);
       socket.on('disconnect', onDisconnect);
+      socket.on('error message', onError);
     });
   })
 }

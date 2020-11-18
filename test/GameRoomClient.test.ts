@@ -19,8 +19,20 @@ describe('GameRoomClientTests', () => {
       expect(socketConfig.onDisconnect).toHaveBeenCalled();
     });
 
-    
   });
+
+  // test('recieves errors gracefully', async () => {
+  //     const ikeyClient = await connectToGameSocket(createMockSocketConfig('Ikey', '1'));
+  //     const peteSocket = createMockSocketConfig('Pete', '1');
+  //     const peteClient = await connectToGameSocket(peteSocket);
+
+  //     await waitForExpect(() => {
+  //       expect(peteSocket.onError).toHaveBeenCalled();
+  //     });
+
+  //     ikeyClient.disconnect();
+  //     peteClient.disconnect();
+  //   });
 test('gets alerted when connections change', async () => {
     const ikeysSocket = createMockSocketConfig('Ikey', '1');
     const ikeyClient = await connectToGameSocket(ikeysSocket);
@@ -71,5 +83,6 @@ function createMockSocketConfig(username: string, playerId: MockPlayerId): GameS
     onConnectionsChanged: jest.fn(),
     onDisconnect: jest.fn(),
     onStateChange: jest.fn(),
+    onError: jest.fn(),
   };
 };
