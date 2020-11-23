@@ -67,7 +67,7 @@ type PlayersTurnDispatch = {
     controls: ControlsType;
   }
 }
-type ControlsType = 'Deal Cards' | 'Stick/Swap' | 'Hit Deck' | 'Choose Dealer';
+type ControlsType = 'Start Highcard' | 'Deal Cards' | 'Stick/Swap' | 'Hit Deck' | 'Choose Dealer';
 
 type ConnectionResponseDto = {
   username: string;
