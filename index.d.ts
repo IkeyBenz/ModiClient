@@ -30,7 +30,8 @@ declare type StateChangeAction =
   | DealCardsDispatch
   | RemoveCardsDispatch
   | PlayerHitDeckDispatch
-  | PlayersTradedDispatch;
+  | PlayersTradedDispatch
+  | PlayersTurnDispatch;
 
 type HighcardWinnersDispatch = {
   type: 'HIGHCARD_WINNERS';
@@ -59,6 +60,14 @@ type PlayersTradedDispatch = {
   type: 'PLAYERS_TRADED';
   payload: { fromPlayerId: string; toPlayerId: string };
 };
+type PlayersTurnDispatch = {
+  type: 'PLAYERS_TURN';
+  payload: {
+    playerId: string;
+    controls: ControlsType;
+  }
+}
+type ControlsType = 'Deal Cards' | 'Stick/Swap' | 'Hit Deck' | 'Choose Dealer';
 
 type ConnectionResponseDto = {
   username: string;
@@ -83,7 +92,8 @@ type GameSocketClientEmitArgs =
   | ['get initial state']
   | ['make move', PlayerMove]
   | ['choose dealer', string]
-  | ['start game'];
+  | ['start game']
+  | ['deal cards'];
 
 type GameSocketClientOnArgs =
   | ['connect', () => void]
@@ -115,6 +125,9 @@ interface GameSocketConfig extends GameRoomClientCallbacks {
 interface GameRoomClientController {
   disconnect(): void;
   initiateHighcard(): void;
+  dealCards(): void;
+  makeMove(move: PlayerMove): void;
+  chooseDealer(dealerId: string): void;
 }
 
 declare module '@modiapp/client' {

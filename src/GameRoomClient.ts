@@ -28,5 +28,8 @@ function createGameRoomClientController(socket: GameSocketClient): GameRoomClien
   return {
     disconnect: () => socket.disconnect(),
     initiateHighcard: () => socket.emit('start game'),
+    dealCards: () => socket.emit('deal cards'),
+    makeMove: (move: PlayerMove) => socket.emit('make move', move),
+    chooseDealer: (dealerId: string) => socket.emit('choose dealer', dealerId),
   }
 }
