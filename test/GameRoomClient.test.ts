@@ -21,18 +21,6 @@ describe('GameRoomClientTests', () => {
 
   });
 
-  // test('recieves errors gracefully', async () => {
-  //     const ikeyClient = await connectToGameSocket(createMockSocketConfig('Ikey', '1'));
-  //     const peteSocket = createMockSocketConfig('Pete', '1');
-  //     const peteClient = await connectToGameSocket(peteSocket);
-
-  //     await waitForExpect(() => {
-  //       expect(peteSocket.onError).toHaveBeenCalled();
-  //     });
-
-  //     ikeyClient.disconnect();
-  //     peteClient.disconnect();
-  //   });
 test('gets alerted when connections change', async () => {
     const ikeysSocket = createMockSocketConfig('Ikey', '1');
     const ikeyClient = await connectToGameSocket(ikeysSocket);
@@ -62,6 +50,14 @@ test('gets alerted when connections change', async () => {
   test('first player can request to start highcard', async () => {
     const ikeysSocket = createMockSocketConfig('Ikey', '1');
     const ikeyClient = await connectToGameSocket(ikeysSocket);
+
+    await waitForExpect(() => {
+      expect(ikeysSocket.onStateChange).toHaveBeenNthCalledWith(
+        1,
+        { type: 'PLAYERS_TURN', payload: { playerId: '1', controls: 'Start Highcard' } },
+        0
+      );
+    });
 
     ikeyClient.initiateHighcard();
     await waitForExpect(() => {
