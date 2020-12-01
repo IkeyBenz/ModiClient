@@ -13,15 +13,14 @@ export function connectToGameSocket({
     const socket = io(url, { query: { username, playerId } }) as GameSocketClient;
  
     socket.on('connect', () => {
-      const grController = createGameRoomClientController(socket);
-      resolve(grController);
+      resolve(createGameRoomClientController(socket));
 
       socket.on('connections', onConnectionsChanged);
       socket.on('state change', onStateChange);
       socket.on('disconnect', onDisconnect);
       socket.on('error message', onError);
     });
-  })
+  });
 }
 
 function createGameRoomClientController(socket: GameSocketClient): GameRoomClientController {
