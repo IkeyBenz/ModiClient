@@ -33,45 +33,35 @@ declare type StateChangeAction =
   | PlayersTradedDispatch
   | PlayersTurnDispatch;
 
-declare enum GameEvent {
-  HighcardWinners = 'HIGHCARD_WINNERS',
-  DealtCards = 'DEALT_CARDS',
-  RemoveCards = 'REMOVE_CARDS',
-  PlayerHitDeck = 'PLAYER_HIT_DECK',
-  StartRound = 'START_ROUND',
-  PlayersTraded = 'PLAYERS_TRADED',
-  PlayersTurn = 'PLAYERS_TURN',
-}
-
 type HighcardWinnersDispatch = {
-  type: GameEvent.HighcardWinners;
+  type: 'HIGHCARD_WINNERS';
   payload: { playerIds: string[] }
 };
 type DealCardsDispatch = {
-  type: GameEvent.DealtCards;
+  type: 'DEALT_CARDS';
   payload: {
     cards: TailoredCardMap,
     dealerId: string,
   }
 };
 type RemoveCardsDispatch = {
-  type: GameEvent.RemoveCards,
+  type: 'REMOVE_CARDS',
   payload: {}
 };
 type PlayerHitDeckDispatch = {
-  type: GameEvent.PlayerHitDeck;
+  type: 'PLAYER_HIT_DECK';
   payload: { playerId: string; card: Card }
 };
 type StartRoundDispatch = {
-  type: GameEvent.StartRound;
+  type: 'START_ROUND';
   payload: { dealerId: string; activePlayerId: string };
 }
 type PlayersTradedDispatch = {
-  type: GameEvent.PlayersTraded;
+  type: 'PLAYERS_TRADED';
   payload: { fromPlayerId: string; toPlayerId: string };
 };
 type PlayersTurnDispatch = {
-  type: GameEvent.PlayersTurn;
+  type: 'PLAYERS_TURN';
   payload: {
     playerId: string;
     controls: ControlsType;
