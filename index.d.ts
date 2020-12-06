@@ -130,6 +130,7 @@ interface GameSocketConfig extends GameRoomClientCallbacks {
   url: string;
   username: string;
   playerId: string;
+  fromEventVersion?: number;
 }
 
 interface GameRoomClientController {

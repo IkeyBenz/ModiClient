@@ -4,13 +4,14 @@ export function connectToGameSocket({
   url,
   username,
   playerId,
+  fromEventVersion,
   onConnectionsChanged,
   onStateChange,
   onDisconnect,
   onError,
 }: GameSocketConfig): Promise<GameRoomClientController> {
   return new Promise((resolve) => {
-    const socket = io(url, { query: { username, playerId } }) as GameSocketClient;
+    const socket = io(url, { query: { username, playerId, fromEventVersion } }) as GameSocketClient;
  
     socket.on('connect', () => {
       resolve(createGameRoomClientController(socket));
